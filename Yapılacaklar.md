@@ -1,0 +1,2 @@
+- Testlerdeki hatalar düzeltilecek
+- Front end baştan bakılacak tasarım değişebilir
