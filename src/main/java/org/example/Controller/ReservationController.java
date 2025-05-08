@@ -17,9 +17,9 @@ public class ReservationController {
         return reservationService.getUserReservations();
     }
 
-    public boolean createReservation(int carId, LocalDateTime startTime, LocalDateTime endTime) {
-        return reservationService.createReservation(carId, startTime, endTime);
-    }
+//    public boolean createReservation(int carId, LocalDateTime startTime, LocalDateTime endTime) {
+//        return reservationService.createReservation(carId, startTime, endTime);
+//    }
 
     public boolean cancelReservation(int reservationId) {
         return reservationService.cancelReservation(reservationId);
