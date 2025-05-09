@@ -22,9 +22,7 @@ public class RegisterPanel extends JPanel {
     private JPasswordField passwordField;
     private JTextField nameField;
     private JTextField emailField;
-    private JTextField addressField;
     private JTextField dobField;
-
     public RegisterPanel(AuthController authController, CardLayout cardLayout, JPanel mainPanel) {
         super(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -73,30 +71,12 @@ public class RegisterPanel extends JPanel {
         gbc.gridx = 1;
         add(emailField, gbc);
 
-        // Address
-        gbc.gridx = 0; gbc.gridy = 6;
-        add(new JLabel("Address:"), gbc);
-        addressField = new JTextField(20); // assign to class field
-        gbc.gridx = 1;
-        add(addressField, gbc);
-
-        // Date of Birth
-        gbc.gridx = 0; gbc.gridy = 7;
-        add(new JLabel("Date of Birth (YYYY-MM-DD):"), gbc);
-        dobField = new JTextField(20); // assign to class field
-        gbc.gridx = 1;
-        add(dobField, gbc);
-
         // Buttons
         JButton registerBtn = new JButton("Register");
         JButton cancelBtn = new JButton("Back to Login");
         JPanel btnPanel = new JPanel();
         btnPanel.add(registerBtn);
         btnPanel.add(cancelBtn);
-        gbc.gridx = 0;
-        gbc.gridy = 8;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
         add(btnPanel, gbc);
 
         // Action Listeners
