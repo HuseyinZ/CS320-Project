@@ -35,13 +35,13 @@ public class UserDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     User user = new User();
-                    user.setUserId(rs.getInt("user_id"));
+                    user.setUserId(rs.getInt("id"));
                     user.setUsername(rs.getString("username"));
                     user.setPassword(rs.getString("password"));
                     user.setName(rs.getString("name"));
                     user.setEmail(rs.getString("email"));
                     user.setAddress(rs.getString("address"));
-                    user.setDateOfBirth(rs.getString("date_of_birth"));
+                    user.setDateOfBirth(rs.getString("birth_date"));
                     user.setAdmin(rs.getBoolean("is_admin"));
                     user.setBanned(rs.getBoolean("is_banned"));
                     return user;

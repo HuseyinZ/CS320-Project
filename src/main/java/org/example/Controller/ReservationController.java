@@ -3,6 +3,7 @@ package org.example.Controller;
 import org.example.Model.Reservation;
 import org.example.Service.ReservationService;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class ReservationController {
         return reservationService.getUserReservations();
     }
 
-    public boolean createReservation(int carId, LocalDateTime startTime, LocalDateTime endTime) {
+    public boolean createReservation(int carId, LocalDate startTime, LocalDate endTime) {
         return reservationService.createReservation(carId, startTime, endTime);
     }
 
