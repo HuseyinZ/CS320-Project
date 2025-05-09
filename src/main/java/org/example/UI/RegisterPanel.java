@@ -23,6 +23,8 @@ public class RegisterPanel extends JPanel {
     private JTextField nameField;
     private JTextField emailField;
     private JTextField dobField;
+    private JTextField addressField;
+
     public RegisterPanel(AuthController authController, CardLayout cardLayout, JPanel mainPanel) {
         super(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
