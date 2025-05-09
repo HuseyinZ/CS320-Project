@@ -26,11 +26,11 @@ public class CarService {
         return carDAO.searchCars(keyword);
     }
 
-    public List<Car> filterCars(Integer year, String brand, String model, String color, Double minPrice, Double maxPrice, String fuel, Integer maxKilometer) {
-        return carDAO.filterCars(year, brand, model, color, minPrice, maxPrice, fuel, maxKilometer);
+    public List<Car> filterCars(Integer year, String brand, String model, String color, Double minPrice, Double maxPrice, String fuel, Integer maxKilometer, String transmission) {
+        return carDAO.filterCars(year, brand, model, color, minPrice, maxPrice, fuel, maxKilometer, transmission);
     }
 
-    public boolean addCar(String brand, String model, int year, String color, double pricePerDay) {
+    public boolean addCar(String brand, String model, int year, String color, double pricePerDay, String license_plate, Integer kilometer, String chassis, String fuel, String transmission) {
         Car newCar = new Car();
         newCar.setBrand(brand);
         newCar.setModel(model);
@@ -38,6 +38,11 @@ public class CarService {
         newCar.setColor(color);
         newCar.setPricePerDay(pricePerDay);
         newCar.setOccupiedDates(new ArrayList<LocalDate>());
+        newCar.setLicence_plate(license_plate);
+        newCar.setKilometer(kilometer);
+        newCar.setChassis(chassis);
+        newCar.setFuel(fuel);
+        newCar.setTransmission(transmission);
 
         return carDAO.addCar(newCar);
     }

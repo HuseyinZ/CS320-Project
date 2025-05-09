@@ -27,6 +27,7 @@ public class CarDAO {
                 car.setKilometer(rs.getInt("kilometer"));
                 car.setFuel(rs.getString("fuel"));
                 car.setLicence_plate(rs.getString("licence_plate"));
+                car.setTransmission(rs.getString("transmission"));
                 cars.add(car);
             }
         } catch (SQLException e) {
@@ -55,6 +56,7 @@ public class CarDAO {
                     car.setKilometer(rs.getInt("kilometer"));
                     car.setFuel(rs.getString("fuel"));
                     car.setLicence_plate(rs.getString("licence_plate"));
+                    car.setTransmission(rs.getString("transmission"));
                     return car;
                 }
             }
@@ -88,6 +90,7 @@ public class CarDAO {
                     car.setKilometer(rs.getInt("kilometer"));
                     car.setFuel(rs.getString("fuel"));
                     car.setLicence_plate(rs.getString("licence_plate"));
+                    car.setTransmission(rs.getString("transmission"));
                     cars.add(car);
                 }
             }
@@ -97,7 +100,7 @@ public class CarDAO {
         return cars;
     }
 
-    public List<Car> filterCars(Integer year, String brand, String model, String color, Double minPrice, Double maxPrice, String fuel, Integer maxKilometer) {
+    public List<Car> filterCars(Integer year, String brand, String model, String color, Double minPrice, Double maxPrice, String fuel, Integer maxKilometer, String transmission) {
         List<Car> cars = new ArrayList<>();
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM cars WHERE 1=1");
         List<Object> params = new ArrayList<>();
@@ -140,6 +143,10 @@ public class CarDAO {
             queryBuilder.append(" AND max_kilometer <= ?");
         }
 
+        if (transmission != null && !transmission.isEmpty()) {
+            queryBuilder.append(" AND transmission = ?");
+        }
+
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(queryBuilder.toString())) {
 
@@ -160,6 +167,7 @@ public class CarDAO {
                     car.setKilometer(rs.getInt("kilometer"));
                     car.setFuel(rs.getString("fuel"));
                     car.setLicence_plate(rs.getString("licence_plate"));
+                    car.setTransmission(rs.getString("transmission"));
                     cars.add(car);
                 }
             }
@@ -170,7 +178,7 @@ public class CarDAO {
     }
 
     public boolean addCar(Car car) {
-        String query = "INSERT INTO ride_on.cars (brand, model, production_year, color, price_per_day, id, license_plate, kilometer, chassis, fuel) " +
+        String query = "INSERT INTO ride_on.cars (brand, model, production_year, color, price_per_day, id, license_plate, kilometer, chassis, fuel, transmission) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -198,7 +206,7 @@ public class CarDAO {
 
     public boolean updateCar(Car car) {
         String query = "UPDATE ride_on.cars SET brand = ?, model = ?, production_year = ?, color = ?, " +
-                "price_per_day = ?, id = ?, license_plate = ?, kilometer = ?, chassis = ?, fuel = ? WHERE id = ?";
+                "price_per_day = ?, id = ?, license_plate = ?, kilometer = ?, chassis = ?, fuel = ?, transmission = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
@@ -212,6 +220,7 @@ public class CarDAO {
             stmt.setInt(8, car.getKilometer());
             stmt.setString(9, car.getChassis());
             stmt.setString(10, car.getFuel());
+            stmt.setString(11, car.getTransmission());
 
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;

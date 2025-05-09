@@ -110,9 +110,8 @@ public class RideOnTests {
     public void testCarSearch() {
         // Login first
         authController.login(TEST_USERNAME, TEST_PASSWORD);
-
         // Add a test car to ensure we have something to search for
-        carController.addCar("Toyota", "Corolla", 2022, "Red", 50.0);
+        carController.addCar("Toyota", "Corolla", 2022, "Red", 2000, "34ZZ0000", 100000, "z0", "gas", "manual");
 
         // Test search with positive result
         List<Car> searchResults = carController.searchCars("Toyota");
@@ -133,7 +132,7 @@ public class RideOnTests {
         authController.login(TEST_USERNAME, TEST_PASSWORD);
 
         // Add a test car
-        carController.addCar("Honda", "Civic", 2023, "Blue", 60.0);
+        carController.addCar("honda", "civic", 2023, "blue", 1000, "34ZZ0001", 50000, "z1", "gas", "manual");
         List<Car> cars = carController.searchCars("Honda");
         Car testCar = cars.getFirst();
 
@@ -168,8 +167,8 @@ public class RideOnTests {
         authController.login(TEST_USERNAME, TEST_PASSWORD);
 
         // Add a test car
-        carController.addCar("Ford", "Focus", 2021, "Black", 45.0);
-        List<Car> cars = carController.searchCars("Ford");
+        carController.addCar("ford", "focus", 2022, "yellow", 1400, "34ZZ0002", 100000, "z2", "diesel", "manual");
+        List<Car> cars = carController.searchCars("ford");
         Car testCar = cars.getFirst();
 
         // Setup reservation period
@@ -204,8 +203,8 @@ public class RideOnTests {
         authController.login(TEST_USERNAME, TEST_PASSWORD);
 
         // Add two test cars
-        carController.addCar("Mazda", "3", 2022, "White", 55.0);
-        carController.addCar("Nissan", "Altima", 2021, "Silver", 50.0);
+        carController.addCar("renault", "clio", 2022, "Red", 1500, "34ZZ0003", 100000, "z3", "gas", "automatic");
+        carController.addCar("nissan", "altima", 2021, "pink", 2000, "34ZZ0004", 100000, "z4", "diesel", "manual");
 
         List<Car> mazdaCars = carController.searchCars("Mazda");
         List<Car> nissanCars = carController.searchCars("Nissan");
@@ -235,7 +234,7 @@ public class RideOnTests {
         authController.login(TEST_USERNAME, TEST_PASSWORD);
 
         // Add a test car
-        carController.addCar("Hyundai", "Elantra", 2022, "Gray", 48.0);
+        carController.addCar("hyundai", "elantra", 2023, "Red", 2000, "34ZZ0005", 100000, "z5", "gas", "manual");
         List<Car> cars = carController.searchCars("Hyundai");
         Car testCar = cars.getFirst();
 
@@ -286,26 +285,26 @@ public class RideOnTests {
         authController.login(TEST_USERNAME, TEST_PASSWORD);
 
         // Add test cars with different attributes
-        carController.addCar("BMW", "X5", 2023, "Black", 120.0);
-        carController.addCar("BMW", "3 Series", 2022, "Blue", 90.0);
-        carController.addCar("Mercedes", "C-Class", 2023, "Black", 100.0);
+        carController.addCar("BMW", "x5", 2022, "black", 5000, "34ZZ0006", 100000, "z6", "gas", "manual");
+        carController.addCar("BMW", "3 series", 2019, "blue", 4000, "34ZZ0007", 100000, "z7", "gas", "manual");
+        carController.addCar("mercedes", "c class", 2023, "gray", 5000, "34ZZ0008", 100000, "z8", "gas", "manual");
 
         // Test filter by brand
-        List<Car> filteredCars = carController.filterCars(null, "BMW", null, null, null, null, null, null);
+        List<Car> filteredCars = carController.filterCars(null,  "BMW", null,null, null, null, null, null, null);
         Assert.assertFalse("Filter should return results for existing brand", filteredCars.isEmpty());
         for (Car car : filteredCars) {
             Assert.assertEquals("All filtered cars should have the specified brand", "BMW", car.getBrand());
         }
 
         // Test filter by color
-        filteredCars = carController.filterCars(null, null, null, "black", null, null, null, null);
+        filteredCars = carController.filterCars(null, null, null, "black", null, null,null, null, null);
         Assert.assertFalse("Filter should return results for existing color", filteredCars.isEmpty());
         for (Car car : filteredCars) {
             Assert.assertEquals("All filtered cars should have the specified color", "black", car.getColor());
         }
 
         // Test filter by year
-        filteredCars = carController.filterCars(2023, null, null, null, null, null, null, null);
+        filteredCars = carController.filterCars(2023, null, null, null, null, null,null, null, null);
         Assert.assertFalse("Filter should return results for existing year", filteredCars.isEmpty());
         for (Car car : filteredCars) {
             Assert.assertEquals("All filtered cars should have the specified year", 2023, car.getYear());
@@ -322,20 +321,21 @@ public class RideOnTests {
         authController.login(TEST_USERNAME, TEST_PASSWORD);
 
         // Add test cars with different attributes
-        carController.addCar("Audi", "A4", 2023, "White", 85.0);
-        carController.addCar("Audi", "Q5", 2022, "Black", 110.0);
-        carController.addCar("Audi", "A6", 2023, "White", 130.0);
+        carController.addCar("audi", "a4", 2018, "blue", 1000, "34ZZ0009", 50000, "z9", "gas", "manual");
+        carController.addCar("audi", "q5", 2023, "blue", 1000, "34ZZ0010", 50000, "z10", "gas", "manual");
+        carController.addCar("audi", "a6", 2023, "blue", 1000, "34ZZ0011", 50000, "z11", "gas", "manual");
+
 
         // Test filter by brand and color
-        List<Car> filteredCars = carController.filterCars(null, "BMW", null, "white", null, null, null, null);
+        List<Car> filteredCars = carController.filterCars(null, "BMW", null, "white", null,null, null, null, null);
         Assert.assertFalse("Filter should return results for existing criteria", filteredCars.isEmpty());
         for (Car car : filteredCars) {
-            Assert.assertEquals("All filtered cars should have the specified brand", "Audi", car.getBrand());
-            Assert.assertEquals("All filtered cars should have the specified color", "White", car.getColor());
+            Assert.assertEquals("All filtered cars should have the specified brand", "audi", car.getBrand());
+            Assert.assertEquals("All filtered cars should have the specified color", "white", car.getColor());
         }
 
         // Test filter by price range
-        filteredCars = carController.filterCars(null, null, null, null, 80.0, 120.0, null, null);
+        filteredCars = carController.filterCars(null, null, null, null, 80.0, 120.0, null, null,null);
         Assert.assertFalse("Filter should return results for price range", filteredCars.isEmpty());
         for (Car car : filteredCars) {
             Assert.assertTrue("All filtered cars should be within price range",
@@ -388,8 +388,8 @@ public class RideOnTests {
         authController.login(TEST_USERNAME, TEST_PASSWORD);
 
         // Add a test car
-        carController.addCar("Subaru", "Outback", 2022, "Green", 65.0);
-        List<Car> cars = carController.searchCars("Subaru");
+        carController.addCar("subaru", "outback", 2022, "green", 2500, "34ZZ0012", 50000, "z12", "gas", "manual");
+        List<Car> cars = carController.searchCars("subaru");
         Car testCar = cars.getFirst();
 
         // Make a reservation
@@ -422,8 +422,8 @@ public class RideOnTests {
         authController.login(TEST_USERNAME, TEST_PASSWORD);
 
         // Add a test car
-        carController.addCar("Volkswagen", "Golf", 2022, "Blue", 55.0);
-        List<Car> cars = carController.searchCars("Volkswagen");
+        carController.addCar("volkswagen", "golf", 2018, "brown", 1900, "34ZZ0013", 50000, "z13", "gas", "manual");
+        List<Car> cars = carController.searchCars("volkswagen");
         Car testCar = cars.getFirst();
 
         // Make a reservation
@@ -477,8 +477,8 @@ public class RideOnTests {
         authController.login(TEST_USERNAME, TEST_PASSWORD);
 
         // Add some test cars
-        carController.addCar("Kia", "Sportage", 2023, "Red", 60.0);
-        carController.addCar("Honda", "Accord", 2022, "Black", 65.0);
+        carController.addCar("kia", "sportage", 2022, "blue", 4000, "34ZZ0014", 50000, "z14", "gas", "automatic");
+        carController.addCar("honda", "accord", 2018, "blue", 1000, "34ZZ0015", 50000, "z15", "gas", "manual");
 
         // Get all cars list
         long startTime = System.currentTimeMillis();
@@ -568,12 +568,12 @@ public class RideOnTests {
         Assert.assertTrue("Admin should be able to login", adminLogin);
 
         // Add a test car
-        carController.addCar("Lexus", "RX", 2023, "Silver", 130.0);
+        carController.addCar("lexus", "rx", 2022, "silver", 1000, "34ZZ0016", 50000, "z16", "gas", "manual");
         List<Car> cars = carController.searchCars("Lexus");
         Car testCar = cars.getFirst();
 
         // Change car availability
-        boolean availabilityChanged = carController.updateCarAvailability(testCar.getCarId(), "maintance", LocalDate.now(), LocalDate.now().plusDays(2));
+        boolean availabilityChanged = carController.updateCarAvailability(testCar.getCarId(), "maintenance", LocalDate.now(), LocalDate.now().plusDays(2));
         Assert.assertTrue("Admin should be able to change car availability", availabilityChanged);
 
         // Verify car availability is changed
@@ -589,7 +589,7 @@ public class RideOnTests {
     public void testAdminDeleteReservation() {
         // First create a user and make a reservation
         authController.login(TEST_USERNAME, TEST_PASSWORD);
-        carController.addCar("Chevrolet", "Malibu", 2022, "Blue", 58.0);
+        carController.addCar("chevrolet", "malibu", 2022, "blue", 1000, "34ZZ0017", 50000, "z17", "gas", "manual");
         List<Car> cars = carController.searchCars("Chevrolet");
         Car testCar = cars.getFirst();
 
@@ -635,7 +635,7 @@ public class RideOnTests {
         authController.login(ADMIN_USERNAME, ADMIN_PASSWORD);
 
         // Add a new car
-        boolean carAdded = carController.addCar("Acura", "TLX", 2023, "White", 95.0);
+        boolean carAdded = carController.addCar("acura", "tlx", 2022, "blue", 1000, "34ZZ0017", 50000, "z17", "gas", "manual");
         Assert.assertTrue("Admin should be able to add new car", carAdded);
 
         // Search for the car
@@ -646,19 +646,19 @@ public class RideOnTests {
         // Update car details
         boolean updated = carController.updateCar(
                 foundCar.getCarId(),
-                "Acura",
-                "MDX",
+                "acura",
+                "mdx",
                 2023,
-                "Black",
-                105.0
+                "black",
+                2000
         );
 
         Assert.assertTrue("Admin should be able to update car details", updated);
 
         // Verify the updates
         Car updatedCar = carController.getCarDetails(foundCar.getCarId());
-        Assert.assertEquals("Car model should be updated", "MDX", updatedCar.getModel());
-        Assert.assertEquals("Car color should be updated", "Black", updatedCar.getColor());
-        Assert.assertEquals("Car price should be updated", 105.0, updatedCar.getPricePerDay(), 0.001);
+        Assert.assertEquals("Car model should be updated", "mdx", updatedCar.getModel());
+        Assert.assertEquals("Car color should be updated", "black", updatedCar.getColor());
+        Assert.assertEquals("Car price should be updated", 2000, updatedCar.getPricePerDay(), 0.001);
     }
 }
