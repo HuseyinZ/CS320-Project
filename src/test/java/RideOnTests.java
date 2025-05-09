@@ -321,13 +321,13 @@ public class RideOnTests {
         authController.login(TEST_USERNAME, TEST_PASSWORD);
 
         // Add test cars with different attributes
-        carController.addCar("audi", "a4", 2018, "blue", 1000, "34ZZ0009", 50000, "z9", "gas", "manual");
-        carController.addCar("audi", "q5", 2023, "blue", 1000, "34ZZ0010", 50000, "z10", "gas", "manual");
-        carController.addCar("audi", "a6", 2023, "blue", 1000, "34ZZ0011", 50000, "z11", "gas", "manual");
+        carController.addCar("audi", "a4", 2018, "blue", 4000, "34ZZ0009", 50000, "z9", "gas", "manual");
+        carController.addCar("audi", "q5", 2023, "white", 4500, "34ZZ0010", 50000, "z10", "gas", "manual");
+        carController.addCar("audi", "a6", 2023, "white", 5000, "34ZZ0011", 50000, "z11", "gas", "manual");
 
 
         // Test filter by brand and color
-        List<Car> filteredCars = carController.filterCars(null, "BMW", null, "white", null,null, null, null, null);
+        List<Car> filteredCars = carController.filterCars(null, "audi", null, "white", null,null, null, null, null);
         Assert.assertFalse("Filter should return results for existing criteria", filteredCars.isEmpty());
         for (Car car : filteredCars) {
             Assert.assertEquals("All filtered cars should have the specified brand", "audi", car.getBrand());
@@ -335,7 +335,7 @@ public class RideOnTests {
         }
 
         // Test filter by price range
-        filteredCars = carController.filterCars(null, null, null, null, 80.0, 120.0, null, null,null);
+        filteredCars = carController.filterCars(null, null, null, null, 3900.0, 4700.0, null, null,null);
         Assert.assertFalse("Filter should return results for price range", filteredCars.isEmpty());
         for (Car car : filteredCars) {
             Assert.assertTrue("All filtered cars should be within price range",
