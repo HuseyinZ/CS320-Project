@@ -5,7 +5,6 @@ import org.example.DAO.ReservationDAO;
 import org.example.Model.Reservation;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class ReservationService {
@@ -59,7 +58,7 @@ public class ReservationService {
         return reservationDAO.cancelReservation(reservationId);
     }
 
-    public boolean modifyReservation(int reservationId, int carId, LocalDateTime startTime, LocalDateTime endTime) {
+    public boolean modifyReservation(int reservationId, int carId, LocalDate startTime, LocalDate endTime) {
         if (!userService.isLoggedIn()) {
             return false;
         }

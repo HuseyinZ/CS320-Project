@@ -4,7 +4,6 @@ import org.example.Model.Reservation;
 import org.example.Service.ReservationService;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class ReservationController {
@@ -26,7 +25,7 @@ public class ReservationController {
         return reservationService.cancelReservation(reservationId);
     }
 
-    public boolean modifyReservation(int reservationId, int carId, LocalDateTime startTime, LocalDateTime endTime) {
+    public boolean modifyReservation(int reservationId, int carId, LocalDate startTime, LocalDate endTime) {
         return reservationService.modifyReservation(reservationId, carId, startTime, endTime);
     }
 
