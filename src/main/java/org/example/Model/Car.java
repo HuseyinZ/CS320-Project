@@ -15,11 +15,12 @@ public class Car {
     private double pricePerDay;
     private String chassis;
     private ArrayList<LocalDate> occupiedDates;
+    private String transmission;
 
     // Constructors
     public Car() {}
 
-    public Car(int carId, String brand, String model, int year, String color, double pricePerDay, String licence_plate, int kilometer, String fuel, String chassis, ArrayList<LocalDate> occupiedDates) {
+    public Car(int carId, String brand, String model, int year, String color, double pricePerDay, String licence_plate, int kilometer, String fuel, String chassis, ArrayList<LocalDate> occupiedDates, String transmission) {
         this.carId = carId;
         this.brand = brand;
         this.model = model;
@@ -31,6 +32,7 @@ public class Car {
         this.licence_plate = licence_plate;
         this.chassis = chassis;
         this.occupiedDates = occupiedDates;
+        this.transmission = transmission;
     }
 
     // Getters and setters
@@ -70,6 +72,9 @@ public class Car {
     public void setOccupiedDates(ArrayList<LocalDate> occupiedDates) {
         this.occupiedDates = occupiedDates;
     }
+
+    public String getTransmission() { return transmission; }
+    public void setTransmission(String transmission) { this.transmission = transmission; }
 
     @Override
     public String toString() {
