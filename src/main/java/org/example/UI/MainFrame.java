@@ -41,7 +41,7 @@ public class MainFrame extends JFrame {
 
     private void initializeUI() throws InterruptedException {
         setTitle("RideOn Car Rental System");
-        setSize(1000, 700);
+        setSize(1100, 700);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 

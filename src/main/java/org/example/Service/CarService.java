@@ -18,6 +18,10 @@ public class CarService {
         return carDAO.getAllCars();
     }
 
+    public List<Car> getAvailableCars() {
+        return carDAO.getAvailableCars();
+    }
+
     public Car getCarById(int carId) {
         return carDAO.getCarById(carId);
     }
@@ -26,11 +30,9 @@ public class CarService {
         return carDAO.searchCars(keyword);
     }
 
-
     public List<Car> filterCars(Integer year, String brand, String model, String color, Double minPrice, Double maxPrice, String fuel, Integer maxKilometer, String transmission, LocalDate startDate, LocalDate endDate) {
         return carDAO.filterCars(year, brand, model, color, minPrice, maxPrice, fuel, maxKilometer, transmission, startDate, endDate);
     }
-
 
     public boolean addCar(String brand, String model, int year, String color, double pricePerDay, String license_plate, Integer kilometer, String chassis, String fuel, String transmission) {
         Car newCar = new Car();

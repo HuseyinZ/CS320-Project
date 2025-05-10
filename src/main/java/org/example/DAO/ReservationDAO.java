@@ -189,11 +189,11 @@ public class ReservationDAO {
 
             while (rs.next()) {
                 Reservation reservation = new Reservation();
-                reservation.setReservationId(rs.getInt("reservation_id"));
+                reservation.setReservationId(rs.getInt("id"));
                 reservation.setUserId(rs.getInt("user_id"));
                 reservation.setCarId(rs.getInt("car_id"));
-                reservation.setStartDate(LocalDate.from(rs.getTimestamp("start_time").toLocalDateTime()));
-                reservation.setEndDate(LocalDate.from(rs.getTimestamp("end_time").toLocalDateTime()));
+                reservation.setStartDate(LocalDate.from(rs.getTimestamp("start_date").toLocalDateTime()));
+                reservation.setEndDate(LocalDate.from(rs.getTimestamp("end_date").toLocalDateTime()));
                 reservation.setCancelled(rs.getBoolean("is_cancelled"));
                 reservations.add(reservation);
             }
