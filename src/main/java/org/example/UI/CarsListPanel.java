@@ -18,7 +18,7 @@ public class CarsListPanel extends JPanel {
 
         add(menuPanel, BorderLayout.WEST);
         JPanel content = new JPanel(new BorderLayout());
-        JLabel title = new JLabel("Available Cars");
+        JLabel title = new JLabel("Our Cars");
         title.setFont(new Font("Arial", Font.BOLD, 18));
         content.add(title, BorderLayout.NORTH);
 
