@@ -29,7 +29,7 @@ public class CarsListPanel extends JPanel {
 
         JPanel btns = new JPanel();
         JButton refreshButton = new JButton("Refresh List");
-        JButton filterButton = new JButton("Sort by Date");
+        JButton filterButton = new JButton("Filter Cars");
 
         refreshButton.addActionListener(e -> {
             loadCars(carController); // Listeyi yenile

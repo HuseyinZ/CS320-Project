@@ -56,8 +56,8 @@ public class FilterDialog extends JDialog {
                 filterRequest.fuel = fuelField.getText().trim().isEmpty() ? null : fuelField.getText().trim();
                 filterRequest.maxKilometer = maxKmField.getText().isEmpty() ? null : Integer.parseInt(maxKmField.getText());
                 filterRequest.transmission = transmissionField.getText().trim().isEmpty() ? null : transmissionField.getText().trim();
-                filterRequest.startDate = startDateField.getText().isEmpty() ? null : LocalDate.parse(startDateField.getText());
-                filterRequest.endDate = endDateField.getText().isEmpty() ? null : LocalDate.parse(endDateField.getText());
+                filterRequest.startDate = (startDateField.getText().isEmpty() || startDateField.getText().equals("yyyy-MM-dd")) ? null : LocalDate.parse(startDateField.getText());
+                filterRequest.endDate = (endDateField.getText().isEmpty() || endDateField.getText().equals("yyyy-MM-dd")) ? null : LocalDate.parse(endDateField.getText());
                 confirmed = true;
                 setVisible(false);
             } catch (Exception ex) {
