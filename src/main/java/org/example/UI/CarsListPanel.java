@@ -1,29 +1,67 @@
 package org.example.UI;
 
+import org.example.Controller.CarController;
+import org.example.Model.Car;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class CarsListPanel extends JPanel {
-    public CarsListPanel(JPanel menuPanel) {
+
+    private DefaultTableModel model;
+
+    public CarsListPanel(JPanel menuPanel, CarController carController) {
         super(new BorderLayout());
-        add(menuPanel, BorderLayout.WEST);
+
         add(menuPanel, BorderLayout.WEST);
         JPanel content = new JPanel(new BorderLayout());
         JLabel title = new JLabel("Available Cars");
         title.setFont(new Font("Arial", Font.BOLD, 18));
         content.add(title, BorderLayout.NORTH);
 
-        String[] cols = {"ID", "Brand", "Model", "Year", "Plate", "Price/Day"};
-        DefaultTableModel model = new DefaultTableModel(cols, 0);
+        String[] cols = {"ID", "Brand", "Model", "Transmission", "Year", "Plate", "Price/Day"};
+        model = new DefaultTableModel(cols, 0);
         JTable table = new JTable(model);
         content.add(new JScrollPane(table), BorderLayout.CENTER);
 
         JPanel btns = new JPanel();
-        btns.add(new JButton("View Details"));
-        btns.add(new JButton("Refresh List"));
+        JButton refreshButton = new JButton("Refresh List");
+
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadCars(carController); // Listeyi yenile
+
+            }
+        });
+
+        btns.add(refreshButton);
         content.add(btns, BorderLayout.SOUTH);
 
         add(content, BorderLayout.CENTER);
+
+        loadCars(carController); // Sayfa açıldığında araçları yükle
+    }
+
+    private void loadCars(CarController carController) {
+        model.setRowCount(0); // Önce tabloyu temizle
+        ArrayList<Car> cars = (ArrayList<Car>) carController.getAllCars(); // Arabaları getir
+
+        for (Car car : cars) {
+            Object[] row = {
+                    car.getCarId(),
+                    car.getBrand(),
+                    car.getModel(),
+                    car.getTransmission(),
+                    car.getYear(),
+                    car.getLicence_plate(),
+                    car.getPricePerDay()
+            };
+            model.addRow(row);
+        }
     }
 }

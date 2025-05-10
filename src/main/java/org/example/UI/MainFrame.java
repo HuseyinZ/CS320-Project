@@ -62,7 +62,7 @@ public class MainFrame extends JFrame {
         registerPanel      = new RegisterPanel(authController, cardLayout, mainPanel);
         dashboardPanel     = new DashboardPanel(createMenuPanel());
         profilePanel       = new ProfilePanel(createMenuPanel(), authController.getCurrentUser(), userService);
-        carsListPanel      = new CarsListPanel(createMenuPanel());
+        carsListPanel      = new CarsListPanel(createMenuPanel(), carController);
         carDetailsPanel    = new CarDetailsPanel(createMenuPanel());
         reservationsPanel  = new ReservationsPanel(createMenuPanel());
         adminPanel         = new AdminPanel(createMenuPanel());

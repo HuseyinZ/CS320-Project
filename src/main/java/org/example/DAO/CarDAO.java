@@ -17,16 +17,16 @@ public class CarDAO {
 
             while (rs.next()) {
                 Car car = new Car();
-                car.setCarId(rs.getInt("car_id"));
+                car.setCarId(rs.getInt("id"));
                 car.setBrand(rs.getString("brand"));
                 car.setModel(rs.getString("model"));
-                car.setYear(rs.getInt("year"));
+                car.setYear(rs.getInt("production_year"));
                 car.setColor(rs.getString("color"));
                 car.setPricePerDay(rs.getDouble("price_per_day"));
                 car.setChassis(rs.getString("chassis"));
                 car.setKilometer(rs.getInt("kilometer"));
                 car.setFuel(rs.getString("fuel"));
-                car.setLicence_plate(rs.getString("licence_plate"));
+                car.setLicence_plate(rs.getString("license_plate"));
                 car.setTransmission(rs.getString("transmission"));
                 cars.add(car);
             }
