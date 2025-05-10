@@ -72,7 +72,7 @@ public class CarControllerTest {
     public void testFilterCars_ByColor() {
 
         String colorToFilter = "Red";
-        List<Car> cars = carController.filterCars(null, null, null, colorToFilter, null, null, null, null);
+        List<Car> cars = carController.filterCars(null, null, null, colorToFilter, null,null, null, null, null);
 
         assertNotNull(cars, "The filter result should not be null");
 
@@ -88,7 +88,7 @@ public class CarControllerTest {
     public void testFilterCars_ByYear() {
 
         int yearToFilter = 2022;
-        List<Car> cars = carController.filterCars(yearToFilter, null, null, null, null, null, null, null);
+        List<Car> cars = carController.filterCars(yearToFilter, null, null, null, null, null, null, null, null);
 
         assertNotNull(cars, "The filter result should not be null");
 
@@ -104,7 +104,7 @@ public class CarControllerTest {
     public void testFilterCars_ByBrand() {
 
         String brandToFilter = "Toyota";
-        List<Car> cars = carController.filterCars(null, brandToFilter, null, null, null, null, null, null);
+        List<Car> cars = carController.filterCars(null, brandToFilter, null, null, null, null, null, null, null);
 
         assertNotNull(cars, "The filter result should not be null");
 
@@ -119,9 +119,9 @@ public class CarControllerTest {
     @Test
     public void testFilterCars_ByPriceRange() {
 
-        double minPrice = 40.0;
-        double maxPrice = 60.0;
-        List<Car> cars = carController.filterCars(null, null, null, null, minPrice, maxPrice, null, null);
+        double minPrice = 1500;
+        double maxPrice = 5001;
+        List<Car> cars = carController.filterCars(null, null, null, null, minPrice, maxPrice, null, null,null);
 
         assertNotNull(cars, "The filter result should not be null");
 
@@ -140,7 +140,7 @@ public class CarControllerTest {
     public void testFilterCars_ByFuel() {
 
         String fuelToFilter = "electric";
-        List<Car> cars = carController.filterCars(null, null, null, null, null, null, fuelToFilter, null);
+        List<Car> cars = carController.filterCars(null, null, null, null, null, null, fuelToFilter, null, null);
 
         assertNotNull(cars, "The filter result should not be null");
 
@@ -156,7 +156,7 @@ public class CarControllerTest {
     public void testFilterCars_ByMaxKilometer() {
 
         int maxKilometerToFilter = 10000;
-        List<Car> cars = carController.filterCars(null, null, null, null, null, null, null, maxKilometerToFilter);
+        List<Car> cars = carController.filterCars(null, null, null, null,null, null, null, maxKilometerToFilter, null);
 
         assertNotNull(cars, "The filter result should not be null");
 
@@ -173,7 +173,7 @@ public class CarControllerTest {
 
         String colorToFilter = "Red";
         String brandToFilter = "Toyota";
-        List<Car> cars = carController.filterCars(null, brandToFilter, null, colorToFilter, null, null, null, null);
+        List<Car> cars = carController.filterCars(null, brandToFilter, null, colorToFilter, null,null, null, null, null);
 
         assertNotNull(cars, "The filter result should not be null");
 
@@ -189,7 +189,7 @@ public class CarControllerTest {
     @Test
     public void testAddCar() {
 
-        boolean result = carController.addCar("Tesla", "Model 3", 2023, "White", 75.0);
+        boolean result = carController.addCar("Tesla", "Model 3", 2023, "White", 4000.0, "34ZZ9999", 20000, "z999", "electric", "automatic");
 
         assertTrue(result, "Adding a new car should succeed");
         List<Car> cars = carController.searchCars("Tesla Model 3");
@@ -254,7 +254,7 @@ public class CarControllerTest {
     @Test
     public void testDeleteCar() {
         // First, add a car to delete
-        carController.addCar("Ford", "Focus", 2021, "Green", 40.0);
+        carController.addCar("Ford", "Focus", 2021, "Green", 1800, "34ZZ9841", 78000, "zz945", "gas", "manual");
 
         // Get all cars and find the id of the newly added car
         List<Car> allCars = carController.searchCars("Ford Focus");
