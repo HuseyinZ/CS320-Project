@@ -97,6 +97,8 @@ public class MainFrame extends JFrame {
 
             if (authController.login(username, password)) {
                 cardLayout.show(mainPanel, "dashboard");
+                usernameField.setText("");
+                passwordField.setText("");
             } else {
                 JOptionPane.showMessageDialog(
                         MainFrame.this,
