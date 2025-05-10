@@ -47,7 +47,6 @@ public class MainFrame extends JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        // Sadece login paneli oluşturuluyor
         createLoginPanel();
         mainPanel.add(loginPanel, "login");
 
@@ -57,8 +56,6 @@ public class MainFrame extends JFrame {
         cardLayout.show(mainPanel, "login");
         add(mainPanel);
     }
-
-
 
     private void initializePostLoginPanels() {
         userService = new UserService();

@@ -1,6 +1,5 @@
 package org.example.DAO;
 
-
 import org.example.Model.User;
 import java.sql.*;
 

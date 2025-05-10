@@ -30,9 +30,11 @@ public class CarController {
         return carService.searchCars(keyword);
     }
 
-    public List<Car> filterCars(Integer year, String brand, String model, String color, Double minPrice, Double maxPrice, String fuel, Integer maxKilometer, String transmission) {
-        return carService.filterCars(year, brand, model, color, minPrice, maxPrice, fuel, maxKilometer, transmission);
+
+    public List<Car> filterCars(Integer year, String brand, String model, String color, Double minPrice, Double maxPrice, String fuel, Integer maxKilometer, String transmission, LocalDate startDate, LocalDate endDate) {
+        return carService.filterCars(year, brand, model, color, minPrice, maxPrice, fuel, maxKilometer, transmission, startDate, endDate);
     }
+
 
     public boolean addCar(String brand, String model, int year, String color, double pricePerDay, String license_plate, Integer kilometer, String chassis, String fuel, String transmission) {
         return carService.addCar(brand, model, year, color, pricePerDay, license_plate, kilometer, chassis, fuel, transmission);

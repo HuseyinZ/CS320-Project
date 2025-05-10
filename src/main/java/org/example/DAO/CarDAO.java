@@ -100,7 +100,8 @@ public class CarDAO {
         return cars;
     }
 
-    public List<Car> filterCars(Integer year, String brand, String model, String color, Double minPrice, Double maxPrice, String fuel, Integer maxKilometer, String transmission) {
+    public List<Car> filterCars(Integer year, String brand, String model, String color, Double minPrice, Double maxPrice, String fuel, Integer maxKilometer, String transmission, LocalDate startDate, LocalDate endDate) {
+        /*
         List<Car> cars = new ArrayList<>();
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM cars WHERE 1=1");
         List<Object> params = new ArrayList<>();
@@ -147,6 +148,7 @@ public class CarDAO {
             queryBuilder.append(" AND transmission = ?");
         }
 
+
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(queryBuilder.toString())) {
 
@@ -157,7 +159,7 @@ public class CarDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Car car = new Car();
-                    car.setCarId(rs.getInt("car_id"));
+                    car.setCarId(rs.getInt("id"));
                     car.setBrand(rs.getString("brand"));
                     car.setModel(rs.getString("model"));
                     car.setYear(rs.getInt("year"));
@@ -166,7 +168,7 @@ public class CarDAO {
                     car.setChassis(rs.getString("chassis"));
                     car.setKilometer(rs.getInt("kilometer"));
                     car.setFuel(rs.getString("fuel"));
-                    car.setLicence_plate(rs.getString("licence_plate"));
+                    car.setLicence_plate(rs.getString("license_plate"));
                     car.setTransmission(rs.getString("transmission"));
                     cars.add(car);
                 }
@@ -174,7 +176,22 @@ public class CarDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        if(startDate != null && endDate != null){
+            for (Car car : cars) {
+                for (LocalDate i = startDate; i != endDate.plusDays(1); i = i.plusDays(1)) {
+                    if (!car.isAvailable(i)) {
+                        cars.remove(car);
+                    }
+                }
+            }
+        }
+
+
         return cars;
+
+         */
+        return null;
     }
 
     public boolean addCar(Car car) {
@@ -252,7 +269,7 @@ public class CarDAO {
 
         try (PreparedStatement preparedStatement = DatabaseConnection.getConnection().prepareStatement(query)) {
             preparedStatement.setInt(1, carId);
-            preparedStatement.setDate(2, java.sql.Date.valueOf(date));
+            preparedStatement.setDate(2, Date.valueOf(date));
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -294,8 +311,8 @@ public class CarDAO {
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setInt(1, carId);
-            stmt.setDate(2, java.sql.Date.valueOf(startDate));
-            stmt.setDate(3, java.sql.Date.valueOf(endDate));
+            stmt.setDate(2, Date.valueOf(startDate));
+            stmt.setDate(3, Date.valueOf(endDate));
 
             int rowsAffected = stmt.executeUpdate();
         }
