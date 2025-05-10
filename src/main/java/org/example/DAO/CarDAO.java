@@ -112,7 +112,7 @@ public class CarDAO {
         }
 
         if (year != null) {
-            queryBuilder.append(" AND year = ?");
+            queryBuilder.append(" AND production_year = ?");
             params.add(year);
         }
 
@@ -123,6 +123,7 @@ public class CarDAO {
 
         if (model != null && !model.isEmpty()) {
             queryBuilder.append(" AND model = ?");
+            params.add(model);
         }
 
         if (minPrice != null) {
@@ -140,14 +141,26 @@ public class CarDAO {
             params.add(fuel);
         }
 
-        if (maxKilometer != null){
+        if (maxKilometer != null) {
             queryBuilder.append(" AND max_kilometer <= ?");
+            params.add(maxKilometer);
         }
 
         if (transmission != null && !transmission.isEmpty()) {
             queryBuilder.append(" AND transmission = ?");
+            params.add(transmission);
         }
 
+        // Filter by date availability using NOT EXISTS on car_statuses
+        if (startDate != null && endDate != null) {
+            queryBuilder.append(" AND NOT EXISTS (")
+                    .append("SELECT * FROM car_statuses cs ")
+                    .append("WHERE cs.car_id = cars.id ")
+                    .append("AND (? <= cs.end_date AND ? >= cs.start_date)")
+                    .append(")");
+            params.add(startDate);
+            params.add(endDate);
+        }
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(queryBuilder.toString())) {
@@ -162,7 +175,7 @@ public class CarDAO {
                     car.setCarId(rs.getInt("id"));
                     car.setBrand(rs.getString("brand"));
                     car.setModel(rs.getString("model"));
-                    car.setYear(rs.getInt("year"));
+                    car.setYear(rs.getInt("production_year"));
                     car.setColor(rs.getString("color"));
                     car.setPricePerDay(rs.getDouble("price_per_day"));
                     car.setChassis(rs.getString("chassis"));
@@ -189,7 +202,6 @@ public class CarDAO {
 
 
         return cars;
-
     }
 
     public boolean addCar(Car car) {

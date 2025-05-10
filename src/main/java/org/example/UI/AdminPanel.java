@@ -19,19 +19,9 @@ public class AdminPanel extends JPanel {
 
 
         gbc.gridx = 0; gbc.gridy = 0;
-        content.add(addCarButton, gbc);
         gbc.gridy = 1;
-        content.add(removeCarButton, gbc);
         gbc.gridy = 2;
-        content.add(viewUsersButton, gbc);
         gbc.gridy = 3;
-        content.add(manageReservationsButton, gbc);
-
-        addCarButton.addActionListener(e -> handleAddCar());
-        removeCarButton.addActionListener(e -> handleRemoveCar());
-        viewUsersButton.addActionListener(e -> handleViewUsers());
-        manageReservationsButton.addActionListener(e -> handleManageReservations());
-
 
         add(content, BorderLayout.CENTER);
     }
