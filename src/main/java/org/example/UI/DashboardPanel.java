@@ -1,13 +1,15 @@
 package org.example.UI;
 
 import org.example.Controller.AuthController;
+import org.example.Controller.ReservationController;
+import org.example.Model.Reservation;
 import org.example.Model.User;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class DashboardPanel extends JPanel {
-    public DashboardPanel(JPanel menuPanel, AuthController authController) {
+    public DashboardPanel(JPanel menuPanel, AuthController authController, ReservationController reservationController) {
         super(new BorderLayout());
         add(menuPanel, BorderLayout.WEST);
 
@@ -15,6 +17,8 @@ public class DashboardPanel extends JPanel {
         JLabel welcomeLabel = new JLabel("Welcome to RideOn Car Rental System " + authController.getCurrentUser().getName());
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
         contentPanel.add(welcomeLabel);
+
+        //UPCOMING RESERVATIONS SHOULD BE LISTED HERE WITH USING reservationController
 
         add(contentPanel, BorderLayout.CENTER);
     }

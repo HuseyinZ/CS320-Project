@@ -31,6 +31,7 @@ public class CarsListPanel extends JPanel {
 
         refreshButton.addActionListener(e -> {
             loadCars(carController); // Listeyi yenile
+            JOptionPane.showMessageDialog(null, "Latest list listed", "Refresh", JOptionPane.PLAIN_MESSAGE);
         });
 
         btns.add(refreshButton);

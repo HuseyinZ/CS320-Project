@@ -51,16 +51,19 @@ public class MainFrame extends JFrame {
         createLoginPanel();
         mainPanel.add(loginPanel, "login");
 
+        registerPanel = new RegisterPanel(authController, cardLayout, mainPanel);
+        mainPanel.add(registerPanel, "register");
+        
         cardLayout.show(mainPanel, "login");
         add(mainPanel);
     }
 
 
+
     private void initializePostLoginPanels() {
         userService = new UserService();
 
-        registerPanel      = new RegisterPanel(authController, cardLayout, mainPanel);
-        dashboardPanel     = new DashboardPanel(createMenuPanel(), authController);
+        dashboardPanel     = new DashboardPanel(createMenuPanel(), authController, reservationController);
         profilePanel       = new ProfilePanel(createMenuPanel(), authController.getCurrentUser(), userService);
         carsListPanel      = new CarsListPanel(createMenuPanel(), carController);
         carDetailsPanel    = new CarDetailsPanel(createMenuPanel());
