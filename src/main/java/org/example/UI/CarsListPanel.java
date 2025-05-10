@@ -6,8 +6,6 @@ import org.example.Model.Car;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class CarsListPanel extends JPanel {
@@ -31,12 +29,8 @@ public class CarsListPanel extends JPanel {
         JPanel btns = new JPanel();
         JButton refreshButton = new JButton("Refresh List");
 
-        refreshButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadCars(carController); // Listeyi yenile
-
-            }
+        refreshButton.addActionListener(e -> {
+            loadCars(carController); // Listeyi yenile
         });
 
         btns.add(refreshButton);
