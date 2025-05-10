@@ -56,7 +56,7 @@ public class UserService {
         return userDAO.createUser(newUser);
     }
 
-    public boolean updateProfile(String name, String email, String address, String dateOfBirth) {
+    public boolean updateProfile(String name, String email, String address) {
         if (!isLoggedIn()) {
             return false;
         }
@@ -65,7 +65,6 @@ public class UserService {
         userToUpdate.setName(name);
         userToUpdate.setEmail(email);
         userToUpdate.setAddress(address);
-        userToUpdate.setDateOfBirth(dateOfBirth);
 
         boolean updateResult = userDAO.updateUser(userToUpdate);
         if (updateResult) {

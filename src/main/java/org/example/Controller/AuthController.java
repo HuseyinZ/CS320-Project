@@ -25,7 +25,12 @@ public class AuthController {
     }
 
     public User getCurrentUser() {
-        return userService.getCurrentUser();
+        if(userService.getCurrentUser() != null) {
+            return userService.getCurrentUser();
+        }
+        else{
+            return new User(-1, "default", "default","default","default","default","1999-12-12", false);
+        }
     }
 
     public boolean isLoggedIn() {

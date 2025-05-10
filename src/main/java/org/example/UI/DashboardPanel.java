@@ -1,5 +1,7 @@
 package org.example.UI;
 
+import org.example.Model.User;
+
 import javax.swing.*;
 import java.awt.*;
 
