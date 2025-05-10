@@ -1,6 +1,7 @@
 package org.example.Controller;
 
 import org.example.Model.Car;
+import org.example.Model.CarFilterRequest;
 import org.example.Model.Reservation;
 import org.example.Service.CarService;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,6 +36,12 @@ public class CarController {
         return carService.filterCars(year, brand, model, color, minPrice, maxPrice, fuel, maxKilometer, transmission, startDate, endDate);
     }
 
+    public List<Car> filterCars(CarFilterRequest request) {
+        return carService.filterCars(
+                request.year, request.brand, request.model, request.color, request.minPrice, request.maxPrice,
+                request.fuel, request.maxKilometer, request.transmission, request.startDate, request.endDate
+        );
+    }
 
     public boolean addCar(String brand, String model, int year, String color, double pricePerDay, String license_plate, Integer kilometer, String chassis, String fuel, String transmission) {
         return carService.addCar(brand, model, year, color, pricePerDay, license_plate, kilometer, chassis, fuel, transmission);
