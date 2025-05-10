@@ -1,3 +1,3 @@
-- Testlerdeki hatalar düzeltilecek
-- Front end baştan bakılacak tasarım değişebilir
+- Testlerdeki hatalar düzeltilecek (nerdeyse tamamlandı)
+- Front end baştan bakılacak tasarım değişebilir(loginPanel + , register + , dashboard isimle falan welcome demesi lazım , profil sayfası çalışmıyor ,databaseden car listesi gelmiyor, databaseden rezler gelmiyor, rez butonu çalışmıyor)
 - DUE CUMARTESİ
