@@ -3,7 +3,6 @@ package org.example.UI;
 import org.example.Controller.AuthController;
 import org.example.Controller.CarController;
 import org.example.Controller.ReservationController;
-import org.example.DAO.UserDAO;
 import org.example.Service.UserService;
 
 import javax.swing.*;

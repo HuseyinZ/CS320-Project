@@ -3,7 +3,6 @@ package org.example.UI;
 import org.example.Controller.AuthController;
 import org.example.Controller.ReservationController;
 import org.example.Model.Reservation;
-import org.example.Model.User;
 
 import javax.swing.*;
 import java.awt.*;

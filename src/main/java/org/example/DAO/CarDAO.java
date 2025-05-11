@@ -1,6 +1,7 @@
 package org.example.DAO;
 
 import org.example.Model.Car;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ public class CarDAO {
         }
         return cars;
     }
-
 
     public List<Car> getAllCars() {
         List<Car> cars = new ArrayList<>();
@@ -349,16 +349,16 @@ public class CarDAO {
     }
 
     public boolean updateCarAvailability(int carId, String status, LocalDate startDate, LocalDate endDate) {
-        String query = "UPDATE ride_on.car_statuses SET status = ?, start_date = ?, end_date = ? WHERE car_id = ?";
+        String query =  "INSERT INTO ride_on.car_statuses (car_id, status, start_date, end_date) VALUES (?, ?, ?, ?)";
         int rowsAffected = 0;
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setString(1, status);
-            preparedStatement.setInt(4, carId);
-            preparedStatement.setDate(2, Date.valueOf(startDate));
-            preparedStatement.setDate(3, Date.valueOf(endDate));
+            preparedStatement.setInt(1, carId);
+            preparedStatement.setString(2, status);
+            preparedStatement.setDate(3, Date.valueOf(startDate));
+            preparedStatement.setDate(4, Date.valueOf(endDate));
 
             rowsAffected = preparedStatement.executeUpdate();
 

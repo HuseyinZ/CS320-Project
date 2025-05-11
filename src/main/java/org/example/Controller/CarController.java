@@ -2,15 +2,10 @@ package org.example.Controller;
 
 import org.example.Model.Car;
 import org.example.Model.CarFilterRequest;
-import org.example.Model.Reservation;
 import org.example.Service.CarService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class CarController {
     CarService carService;

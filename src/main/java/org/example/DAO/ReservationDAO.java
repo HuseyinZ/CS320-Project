@@ -1,9 +1,9 @@
 package org.example.DAO;
 
 import org.example.Model.Reservation;
+
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +52,8 @@ public class ReservationDAO {
 
             stmt.setInt(1, reservation.getUserId());
             stmt.setInt(2, reservation.getCarId());
-            stmt.setDate(3, java.sql.Date.valueOf(reservation.getStartDate()));
-            stmt.setDate(4, java.sql.Date.valueOf(reservation.getEndDate()));
+            stmt.setDate(3, Date.valueOf(reservation.getStartDate()));
+            stmt.setDate(4, Date.valueOf(reservation.getEndDate()));
             stmt.setBoolean(5, reservation.isCancelled());
 
             int rowsAffected = stmt.executeUpdate();

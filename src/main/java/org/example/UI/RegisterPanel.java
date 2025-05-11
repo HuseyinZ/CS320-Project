@@ -1,8 +1,9 @@
 package org.example.UI;
 
+import org.example.Controller.AuthController;
+
 import javax.swing.*;
 import java.awt.*;
-import org.example.Controller.AuthController;
 
 public class RegisterPanel extends JPanel {
 
