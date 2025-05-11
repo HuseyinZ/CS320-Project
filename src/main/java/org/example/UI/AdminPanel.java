@@ -185,10 +185,8 @@ public class AdminPanel extends JPanel {
         }
     }
 
-
-
     private void handleRemoveCar() {
-        List<Car> cars = carController.getAvailableCars();
+        List<Car> cars = carController.getAllCars();
 
         if (cars.isEmpty()) {
             JOptionPane.showMessageDialog(this, "There are no cars to remove.");
