@@ -1,7 +1,16 @@
 package org.example.UI;
 
+import org.example.Controller.CarController;
+import org.example.Controller.ReservationController;
+import org.example.Controller.UserController;
+import org.example.Model.Car;
+import org.example.Model.Reservation;
+import org.example.Model.User;
+
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
+import java.util.List;
 
 public class AdminPanel extends JPanel {
     CarController carController = new CarController();
@@ -235,8 +244,77 @@ public class AdminPanel extends JPanel {
     }
 
     private void handleViewUsers() {
-        // Logic to view users
-        JOptionPane.showMessageDialog(this, "View Users functionality not implemented yet.");
+        List<User> users = userController.getAllUsers();
+
+        if (users.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No users available.");
+            return;
+        }
+
+        // Kullanıcıları seçim listesine dönüştür
+        String[] userOptions = users.stream()
+                .map(user -> user.getUserId() + " - " + user.getName() + " (" + (user.isAdmin() == true ? "Admin" : "User") + ")")
+                .toArray(String[]::new);
+
+        String selectedUserStr = (String) JOptionPane.showInputDialog(
+                this,
+                "Select a user:",
+                "View Users",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                userOptions,
+                userOptions[0]
+        );
+
+        if (selectedUserStr == null) return;
+
+        int selectedUserId = Integer.parseInt(selectedUserStr.split(" - ")[0]);
+        User selectedUser = users.stream().filter(u -> u.getUserId() == selectedUserId).findFirst().orElse(null);
+
+        if (selectedUser == null) {
+            JOptionPane.showMessageDialog(this, "User not found.");
+            return;
+        }
+
+        String[] actions = {"Delete User", "Change Admin Status"};
+        String selectedAction = (String) JOptionPane.showInputDialog(
+                this,
+                "Choose an action for user:",
+                "User Actions",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                actions,
+                actions[0]
+        );
+
+        if (selectedAction == null) return;
+
+        switch (selectedAction) {
+            case "Delete User":
+                int confirmDelete = JOptionPane.showConfirmDialog(this,
+                        "Are you sure you want to delete this user?",
+                        "Confirm Delete",
+                        JOptionPane.YES_NO_OPTION);
+                if (confirmDelete == JOptionPane.YES_OPTION) {
+                    boolean deleted = userController.deleteUser(selectedUser.getUserId());
+                    if (deleted) {
+                        JOptionPane.showMessageDialog(this, "User deleted successfully.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Failed to delete user.");
+                    }
+                }
+                break;
+
+            case "Change Admin Status":
+                int newStatus = selectedUser.isAdmin() == true ? 0 : 1;
+                boolean updated = userController.changeAdminStatus(selectedUser, newStatus);
+                if (updated) {
+                    JOptionPane.showMessageDialog(this, "User admin status updated to " + (newStatus == 1 ? "Admin" : "User") + ".");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Failed to update admin status.");
+                }
+                break;
+        }
     }
     private void handleManageReservations() {
         // Logic to manage reservations
