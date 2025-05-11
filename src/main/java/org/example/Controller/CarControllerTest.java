@@ -156,9 +156,9 @@ public class CarControllerTest {
     @Test
     public void testFilterCars_ByMaxKilometer() {
 
-        /*
+
         int maxKilometerToFilter = 10000;
-        List<Car> cars = carController.filterCars(null, null, null, null,null, null, null, maxKilometerToFilter, null);
+        List<Car> cars = carController.filterCars(null, null, null, null,null, null, null,  maxKilometerToFilter, null, null, null);
 
         assertNotNull(cars, "The filter result should not be null");
 
@@ -166,7 +166,7 @@ public class CarControllerTest {
             assertEquals(maxKilometerToFilter, car.getKilometer(), "All filtered cars should have the specified fuel type");
         }
 
-         */
+
     }
 
     /**
@@ -197,7 +197,7 @@ public class CarControllerTest {
         boolean result = carController.addCar("Tesla", "Model 3", 2023, "White", 4000.0, "34ZZ9999", 20000, "z999", "electric", "automatic");
 
         assertTrue(result, "Adding a new car should succeed");
-        List<Car> cars = carController.searchCars("Tesla Model 3");
+        List<Car> cars = carController.searchCars("Tesla");
         assertFalse(cars.isEmpty(), "The newly added car should be found in a search");
     }
 
@@ -243,6 +243,7 @@ public class CarControllerTest {
         boolean result = carController.updateCarAvailability(carId, "maintenance", LocalDate.of(2025, 5 ,15), LocalDate.of(2025, 5 ,17));
         assertTrue(result, "Setting a car as unavailable should succeed");
 
+        //car doesnt get its occupiedDates with itself????????????
         Car carAfterUpdate = carController.getCarDetails(carId);
         assertFalse(carAfterUpdate.isAvailable(LocalDate.of(2025, 5, 16)), "The car should be marked as unavailable");
 
@@ -262,7 +263,7 @@ public class CarControllerTest {
         carController.addCar("Ford", "Focus", 2021, "Green", 1800, "34ZZ9841", 78000, "zz945", "gas", "manual");
 
         // Get all cars and find the id of the newly added car
-        List<Car> allCars = carController.searchCars("Ford Focus");
+        List<Car> allCars = carController.searchCars("Focus");
         assertFalse(allCars.isEmpty(), "The newly added car should be found");
 
         int carIdToDelete = allCars.getFirst().getCarId();

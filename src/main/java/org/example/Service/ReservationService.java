@@ -5,6 +5,7 @@ import org.example.DAO.ReservationDAO;
 import org.example.Model.Reservation;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReservationService {
@@ -81,7 +82,7 @@ public class ReservationService {
         updatedReservation.setEndDate(LocalDate.from(endTime));
         updatedReservation.setCancelled(false);
 
-        return reservationDAO.modifyReservation(updatedReservation);
+        return reservationDAO.modifyReservation(existingReservation, updatedReservation);
     }
 
     public List<Reservation> getAllReservations() {
@@ -89,7 +90,12 @@ public class ReservationService {
             return null;
         }
 
-        return reservationDAO.getAllReservations();
+        if(reservationDAO.getAllReservations() == null){
+            return new ArrayList<>();
+        }
+        else{
+            return reservationDAO.getAllReservations();
+        }
     }
 
     public boolean deleteReservation(int reservationId) {

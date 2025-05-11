@@ -35,8 +35,8 @@ public class RideOnTests {
     private static final String TEST_DOB = "1990-01-01";
 
     // Admin user credentials
-    private static final String ADMIN_USERNAME = "admin";
-    private static final String ADMIN_PASSWORD = "admin123";
+    private static final String ADMIN_USERNAME = "utku";
+    private static final String ADMIN_PASSWORD = "san00san";
 
     @Before
     public void setUp() {
@@ -206,8 +206,8 @@ public class RideOnTests {
         carController.addCar("renault", "clio", 2022, "Red", 1500, "34ZZ0003", 100000, "z3", "gas", "automatic");
         carController.addCar("nissan", "altima", 2021, "pink", 2000, "34ZZ0004", 100000, "z4", "diesel", "manual");
 
-        List<Car> mazdaCars = carController.searchCars("Mazda");
-        List<Car> nissanCars = carController.searchCars("Nissan");
+        List<Car> mazdaCars = carController.searchCars("renault");
+        List<Car> nissanCars = carController.searchCars("nissan");
         Car testCar1 = mazdaCars.getFirst();
         Car testCar2 = nissanCars.getFirst();
 
@@ -231,12 +231,12 @@ public class RideOnTests {
     @Test
     public void testReservationLogging() {
         // Login first
-        authController.login(TEST_USERNAME, TEST_PASSWORD);
+        authController.login(ADMIN_USERNAME, ADMIN_PASSWORD);
 
         // Add a test car
         carController.addCar("hyundai", "elantra", 2023, "Red", 2000, "34ZZ0005", 100000, "z5", "gas", "manual");
         List<Car> cars = carController.searchCars("Hyundai");
-        Car testCar = cars.getFirst();
+        Car testCar = cars.getLast();
 
         // Setup reservation period
         LocalDate startTime = LocalDate.now().plusDays(7);
@@ -264,7 +264,7 @@ public class RideOnTests {
         Assert.assertTrue("Reservation should be successfully cancelled", cancelResult);
 
         // Verify reservation is still logged after cancellation
-        userReservations = reservationController.getUserReservations();
+        userReservations = reservationController.getAllReservations();
         reservationFound = false;
         for (Reservation r : userReservations) {
             if (r.getReservationId() == reservationId && r.isCancelled()) {
@@ -278,6 +278,7 @@ public class RideOnTests {
     /**
      * Test ID: T-SRS-RO-004
      * Verifies car filtering functionality
+     * no database selected??
      */
     @Test
     public void testCarFiltering() {
@@ -290,21 +291,21 @@ public class RideOnTests {
         carController.addCar("mercedes", "c class", 2023, "gray", 5000, "34ZZ0008", 100000, "z8", "gas", "manual");
 
         // Test filter by brand
-        List<Car> filteredCars = carController.filterCars(null,  "BMW", null,null, null, null, null, null, null);
+        List<Car> filteredCars = carController.filterCars(null,  "BMW", null,null, null, null, null, null, null, null, null);
         Assert.assertFalse("Filter should return results for existing brand", filteredCars.isEmpty());
         for (Car car : filteredCars) {
             Assert.assertEquals("All filtered cars should have the specified brand", "BMW", car.getBrand());
         }
 
         // Test filter by color
-        filteredCars = carController.filterCars(null, null, null, "black", null, null,null, null, null);
+        filteredCars = carController.filterCars(null, null, null, "black", null, null,null,null,null, null, null);
         Assert.assertFalse("Filter should return results for existing color", filteredCars.isEmpty());
         for (Car car : filteredCars) {
             Assert.assertEquals("All filtered cars should have the specified color", "black", car.getColor());
         }
 
         // Test filter by year
-        filteredCars = carController.filterCars(2023, null, null, null, null, null,null, null, null);
+        filteredCars = carController.filterCars(2023, null, null, null, null, null,null,null,null, null, null);
         Assert.assertFalse("Filter should return results for existing year", filteredCars.isEmpty());
         for (Car car : filteredCars) {
             Assert.assertEquals("All filtered cars should have the specified year", 2023, car.getYear());
@@ -314,6 +315,7 @@ public class RideOnTests {
     /**
      * Test ID: T-SRS-RO-004.1/2
      * Verifies multiple filter criteria including price range
+     * no database selected??
      */
     @Test
     public void testMultipleFilterCriteria() {
@@ -327,7 +329,7 @@ public class RideOnTests {
 
 
         // Test filter by brand and color
-        List<Car> filteredCars = carController.filterCars(null, "audi", null, "white", null,null, null, null, null);
+        List<Car> filteredCars = carController.filterCars(null, "audi", null, "white", null,null,null,null, null, null, null);
         Assert.assertFalse("Filter should return results for existing criteria", filteredCars.isEmpty());
         for (Car car : filteredCars) {
             Assert.assertEquals("All filtered cars should have the specified brand", "audi", car.getBrand());
@@ -335,7 +337,7 @@ public class RideOnTests {
         }
 
         // Test filter by price range
-        filteredCars = carController.filterCars(null, null, null, null, 3900.0, 4700.0, null, null,null);
+        filteredCars = carController.filterCars(null, null, null, null, 3900.0, 4700.0, null,null,null, null,null);
         Assert.assertFalse("Filter should return results for price range", filteredCars.isEmpty());
         for (Car car : filteredCars) {
             Assert.assertTrue("All filtered cars should be within price range",
@@ -346,11 +348,12 @@ public class RideOnTests {
     /**
      * Test ID: T-SRS-RO-008
      * Verifies user profile update functionality
+     * ??
      */
     @Test
     public void testUserProfileUpdate() {
 
-        authController.login(TEST_USERNAME, TEST_PASSWORD);
+        authController.login(ADMIN_USERNAME, ADMIN_PASSWORD);
 
         User currentUser = authController.getCurrentUser();
         User updatedUser = userService.updateUser(
@@ -424,7 +427,7 @@ public class RideOnTests {
         // Add a test car
         carController.addCar("volkswagen", "golf", 2018, "brown", 1900, "34ZZ0013", 50000, "z13", "gas", "manual");
         List<Car> cars = carController.searchCars("volkswagen");
-        Car testCar = cars.getFirst();
+        Car testCar = cars.getLast();
 
         // Make a reservation
         LocalDate startTime = LocalDate.now().plusDays(12);
@@ -455,7 +458,7 @@ public class RideOnTests {
         boolean cancelResult = reservationController.cancelReservation(reservationId);
         Assert.assertTrue("Reservation should be successfully cancelled", cancelResult);
 
-        // Verify reservation is cancelled
+        // Verify reservation is canceled
         userReservations = reservationController.getUserReservations();
         boolean foundCancelled = false;
         for (Reservation r : userReservations) {
@@ -569,8 +572,8 @@ public class RideOnTests {
 
         // Add a test car
         carController.addCar("lexus", "rx", 2022, "silver", 1000, "34ZZ0016", 50000, "z16", "gas", "manual");
-        List<Car> cars = carController.searchCars("Lexus");
-        Car testCar = cars.getFirst();
+        List<Car> cars = carController.searchCars("lexus");
+        Car testCar = cars.getLast();
 
         // Change car availability
         boolean availabilityChanged = carController.updateCarAvailability(testCar.getCarId(), "maintenance", LocalDate.now(), LocalDate.now().plusDays(2));

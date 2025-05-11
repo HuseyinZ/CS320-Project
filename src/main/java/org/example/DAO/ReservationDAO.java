@@ -94,13 +94,13 @@ public class ReservationDAO {
         }
     }
 
-    public boolean modifyReservation(Reservation reservation) {
+    public boolean modifyReservation(Reservation oldReservation, Reservation newReservation) {
         // First cancel the existing reservation
-        boolean cancelResult = cancelReservation(reservation.getReservationId());
+        boolean cancelResult = cancelReservation(oldReservation.getReservationId());
 
         if (cancelResult) {
             // Then create a new one with updated details
-            return createReservation(reservation);
+            return createReservation(newReservation);
         }
         return false;
     }

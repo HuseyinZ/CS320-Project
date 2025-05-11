@@ -40,13 +40,16 @@ public class CarDAO {
     public List<Car> getAllCars() {
         List<Car> cars = new ArrayList<>();
         String query = "SELECT * FROM ride_on.cars";
+
         try (Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
                 Car car = new Car();
-                car.setCarId(rs.getInt("id"));
+                int carId = rs.getInt("id");
+
+                car.setCarId(carId);
                 car.setBrand(rs.getString("brand"));
                 car.setModel(rs.getString("model"));
                 car.setYear(rs.getInt("production_year"));
@@ -57,6 +60,11 @@ public class CarDAO {
                 car.setFuel(rs.getString("fuel"));
                 car.setLicence_plate(rs.getString("license_plate"));
                 car.setTransmission(rs.getString("transmission"));
+
+                // Fetch and set occupiedDates
+                ArrayList<LocalDate> occupiedDates = getOccupiedDatesForCar(conn, carId);
+                car.setOccupiedDates(occupiedDates);
+
                 cars.add(car);
             }
         } catch (SQLException e) {
@@ -75,17 +83,22 @@ public class CarDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     Car car = new Car();
-                    car.setCarId(rs.getInt("car_id"));
+                    car.setCarId(rs.getInt("id"));
                     car.setBrand(rs.getString("brand"));
                     car.setModel(rs.getString("model"));
-                    car.setYear(rs.getInt("year"));
+                    car.setYear(rs.getInt("production_year"));
                     car.setColor(rs.getString("color"));
                     car.setPricePerDay(rs.getDouble("price_per_day"));
                     car.setChassis(rs.getString("chassis"));
                     car.setKilometer(rs.getInt("kilometer"));
                     car.setFuel(rs.getString("fuel"));
-                    car.setLicence_plate(rs.getString("licence_plate"));
+                    car.setLicence_plate(rs.getString("license_plate"));
                     car.setTransmission(rs.getString("transmission"));
+
+                    // Fetch and set occupiedDates
+                    ArrayList<LocalDate> occupiedDates = getOccupiedDatesForCar(conn, carId);
+                    car.setOccupiedDates(occupiedDates);
+
                     return car;
                 }
             }
@@ -98,6 +111,7 @@ public class CarDAO {
     public List<Car> searchCars(String keyword) {
         List<Car> cars = new ArrayList<>();
         String query = "SELECT * FROM ride_on.cars WHERE brand LIKE ? OR model LIKE ? OR color LIKE ?";
+
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
@@ -109,17 +123,23 @@ public class CarDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Car car = new Car();
-                    car.setCarId(rs.getInt("car_id"));
+                    int carId = rs.getInt("id");
+                    car.setCarId(carId);
                     car.setBrand(rs.getString("brand"));
                     car.setModel(rs.getString("model"));
-                    car.setYear(rs.getInt("year"));
+                    car.setYear(rs.getInt("production_year"));
                     car.setColor(rs.getString("color"));
                     car.setPricePerDay(rs.getDouble("price_per_day"));
                     car.setChassis(rs.getString("chassis"));
                     car.setKilometer(rs.getInt("kilometer"));
                     car.setFuel(rs.getString("fuel"));
-                    car.setLicence_plate(rs.getString("licence_plate"));
+                    car.setLicence_plate(rs.getString("license_plate"));
                     car.setTransmission(rs.getString("transmission"));
+
+                    // Fetch occupied dates for this car
+                    ArrayList<LocalDate> occupiedDates = getOccupiedDatesForCar(conn, carId);
+                    car.setOccupiedDates(occupiedDates);
+
                     cars.add(car);
                 }
             }
@@ -127,6 +147,30 @@ public class CarDAO {
             e.printStackTrace();
         }
         return cars;
+    }
+
+    private ArrayList<LocalDate> getOccupiedDatesForCar(Connection conn, int carId) {
+        ArrayList<LocalDate> occupiedDates = new ArrayList<>();
+        String statusQuery = "SELECT start_date, end_date FROM ride_on.car_statuses WHERE car_id = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(statusQuery)) {
+            stmt.setInt(1, carId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    LocalDate start = rs.getDate("start_date").toLocalDate();
+                    LocalDate end = rs.getDate("end_date").toLocalDate();
+
+                    // Expand range into individual dates
+                    for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
+                        occupiedDates.add(date);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return occupiedDates;
     }
 
     public List<Car> filterCars(Integer year, String brand, String model, String color, Double minPrice, Double maxPrice, String fuel, Integer maxKilometer, String transmission, LocalDate startDate, LocalDate endDate) {
@@ -264,19 +308,9 @@ public class CarDAO {
             if (rs.next()) {
                 car.setCarId(rs.getInt("id"));
             }
-            // Set the car ID in the car_statuses table
-
-
-            carStatusStmt.setInt(1, car.getCarId());
-            carStatusStmt.setString(2, "available");
-            carStatusStmt.setDate(3, Date.valueOf(LocalDate.now()));
-            carStatusStmt.setDate(4, Date.valueOf(LocalDate.now().plusYears(1)));
-
-            carStatusStmt.executeUpdate();
-
-
             return rowsAffected > 0;
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -284,7 +318,8 @@ public class CarDAO {
 
     public boolean updateCar(Car car) {
         String query = "UPDATE ride_on.cars SET brand = ?, model = ?, production_year = ?, color = ?, " +
-                "price_per_day = ?, id = ?, license_plate = ?, kilometer = ?, chassis = ?, fuel = ?, transmission = ? WHERE id = ?";
+                "price_per_day = ?, license_plate = ?, kilometer = ?, chassis = ?, fuel = ?, transmission = ? " +
+                "WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
@@ -293,12 +328,14 @@ public class CarDAO {
             stmt.setInt(3, car.getYear());
             stmt.setString(4, car.getColor());
             stmt.setDouble(5, car.getPricePerDay());
-            stmt.setInt(6, car.getCarId());
-            stmt.setString(7, car.getLicence_plate());
-            stmt.setInt(8, car.getKilometer());
-            stmt.setString(9, car.getChassis());
-            stmt.setString(10, car.getFuel());
-            stmt.setString(11, car.getTransmission());
+            stmt.setString(6, car.getLicence_plate());
+            stmt.setInt(7, car.getKilometer());
+            stmt.setString(8, car.getChassis());
+            stmt.setString(9, car.getFuel());
+            stmt.setString(10, car.getTransmission());
+
+            // Use ID only in WHERE clause
+            stmt.setInt(11, car.getCarId());
 
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;

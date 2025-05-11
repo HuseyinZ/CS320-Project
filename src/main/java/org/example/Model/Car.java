@@ -17,9 +17,7 @@ public class Car {
     private ArrayList<LocalDate> occupiedDates;
     private String transmission;
 
-    // Constructors
-    public Car() {}
-
+    public Car(){}
     public Car(int carId, String brand, String model, int year, String color, double pricePerDay, String licence_plate, int kilometer, String fuel, String chassis, ArrayList<LocalDate> occupiedDates, String transmission) {
         this.carId = carId;
         this.brand = brand;
@@ -82,6 +80,6 @@ public class Car {
     }
 
     public boolean isAvailable(LocalDate of) {
-        return occupiedDates.contains(of);
+        return !occupiedDates.contains(of);
     }
 }
