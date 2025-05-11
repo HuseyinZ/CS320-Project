@@ -317,8 +317,98 @@ public class AdminPanel extends JPanel {
         }
     }
     private void handleManageReservations() {
-        // Logic to manage reservations
-        JOptionPane.showMessageDialog(this, "Manage Reservations functionality not implemented yet.");
+        List<Reservation> reservations = reservationController.getAllReservations();
+
+        if (reservations.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No reservations found.");
+            return;
+        }
+
+        String[] reservationOptions = reservations.stream()
+                .map(r -> "ID: " + r.getReservationId() + " | Car ID: " + r.getCarId() + " | " +
+                        r.getStartDate() + " to " + r.getEndDate())
+                .toArray(String[]::new);
+
+        String selectedReservationStr = (String) JOptionPane.showInputDialog(
+                this,
+                "Select a reservation:",
+                "Manage Reservations",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                reservationOptions,
+                reservationOptions[0]
+        );
+
+        if (selectedReservationStr == null) return;
+
+        int selectedReservationId = Integer.parseInt(selectedReservationStr.split(" ")[1]);
+        Reservation selectedReservation = reservations.stream()
+                .filter(r -> r.getReservationId() == selectedReservationId)
+                .findFirst()
+                .orElse(null);
+
+        if (selectedReservation == null) {
+            JOptionPane.showMessageDialog(this, "Reservation not found.");
+            return;
+        }
+
+        String[] actions = {"Cancel Reservation", "Modify Reservation"};
+        String selectedAction = (String) JOptionPane.showInputDialog(
+                this,
+                "Choose an action for the reservation:",
+                "Reservation Actions",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                actions,
+                actions[0]
+        );
+
+        if (selectedAction == null) return;
+
+        switch (selectedAction) {
+            case "Cancel Reservation":
+                int confirmCancel = JOptionPane.showConfirmDialog(
+                        this,
+                        "Are you sure you want to cancel this reservation?",
+                        "Confirm Cancel",
+                        JOptionPane.YES_NO_OPTION
+                );
+                if (confirmCancel == JOptionPane.YES_OPTION) {
+                    boolean cancelled = reservationController.cancelReservation(selectedReservation.getReservationId());
+                    if (cancelled) {
+                        JOptionPane.showMessageDialog(this, "Reservation cancelled.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Failed to cancel reservation.");
+                    }
+                }
+                break;
+
+            case "Modify Reservation":
+                try {
+                    String carIdStr = JOptionPane.showInputDialog(this, "Enter new Car ID:", selectedReservation.getCarId());
+                    String startStr = JOptionPane.showInputDialog(this, "Enter new Start Date (YYYY-MM-DD):", selectedReservation.getStartDate());
+                    String endStr = JOptionPane.showInputDialog(this, "Enter new End Date (YYYY-MM-DD):", selectedReservation.getEndDate());
+
+                    if (carIdStr == null || startStr == null || endStr == null) return;
+
+                    int newCarId = Integer.parseInt(carIdStr.trim());
+                    LocalDate newStart = LocalDate.parse(startStr.trim());
+                    LocalDate newEnd = LocalDate.parse(endStr.trim());
+
+                    boolean modified = reservationController.modifyReservation(
+                            selectedReservation.getReservationId(), newCarId, newStart, newEnd
+                    );
+
+                    if (modified) {
+                        JOptionPane.showMessageDialog(this, "Reservation modified successfully.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Failed to modify reservation.");
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Invalid input. Modification aborted.");
+                }
+                break;
+        }
     }
 
 }
