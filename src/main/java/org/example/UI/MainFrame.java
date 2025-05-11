@@ -36,6 +36,7 @@ public class MainFrame extends JFrame {
         reservationController = new ReservationController();
 
         initializeUI();
+
     }
 
     private void initializeUI() throws InterruptedException {

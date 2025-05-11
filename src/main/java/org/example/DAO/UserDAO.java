@@ -2,10 +2,57 @@ package org.example.DAO;
 
 import org.example.Model.User;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
+    public List<User> getAllUsers() {
+        String query = "SELECT * FROM ride_on.users";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
 
+            List<User> users = new ArrayList<>();
+            while (rs.next()) {
+                User user = new User();
+                user.setUserId(rs.getInt("id"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setName(rs.getString("name"));
+                user.setEmail(rs.getString("email"));
+                user.setAddress(rs.getString("address"));
+                user.setDateOfBirth(rs.getString("birth_date"));
+                user.setAdmin(rs.getBoolean("is_admin"));
+                user.setBanned(rs.getBoolean("is_banned"));
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public boolean deleteUser(User userToDelete) {
+        String reservationQuery = "DELETE FROM ride_on.reservations WHERE user_id = ?";
+        String query = "DELETE FROM ride_on.users WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             PreparedStatement reservationStmt = conn.prepareStatement(reservationQuery)) {
+
+            reservationStmt.setInt(1, userToDelete.getUserId());
+            reservationStmt.executeUpdate();
+
+            stmt.setInt(1, userToDelete.getUserId());
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     public boolean authenticate(String username, String password) {
+
 
 
         String query = "SELECT * FROM ride_on.users WHERE username = ? AND password = ?";
@@ -149,7 +196,7 @@ public class UserDAO {
                 user.setName(rs.getString("name"));
                 user.setEmail(rs.getString("email"));
                 user.setAddress(rs.getString("address"));
-                user.setDateOfBirth(rs.getString("date_of_birth"));
+                user.setDateOfBirth(rs.getString("birth_date"));
                 user.setBanned(rs.getBoolean("is_banned"));
             }
 

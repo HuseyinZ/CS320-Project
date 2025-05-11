@@ -18,6 +18,10 @@ public class CarService {
         return carDAO.getAllCars();
     }
 
+    public List<Car> getAvailableCars() {
+        return carDAO.getAvailableCars();
+    }
+
     public Car getCarById(int carId) {
         return carDAO.getCarById(carId);
     }

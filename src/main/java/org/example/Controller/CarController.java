@@ -22,6 +22,9 @@ public class CarController {
     public List<Car> getAllCars() {
         return carService.getAllCars();
     }
+    public List<Car> getAvailableCars() {
+        return carService.getAvailableCars();
+    }
 
     public Car getCarDetails(int carId) {
         return carService.getCarById(carId);
