@@ -1,6 +1,5 @@
 package org.example.UI;
 
-import org.example.DAO.UserDAO;
 import org.example.Model.User;
 import org.example.Service.UserService;
 
