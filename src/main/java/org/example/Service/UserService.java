@@ -3,6 +3,8 @@ package org.example.Service;
 import org.example.DAO.UserDAO;
 import org.example.Model.User;
 
+import java.util.List;
+
 public class UserService {
 
     private final UserDAO userDAO;
@@ -110,4 +112,32 @@ public class UserService {
         return userToUpdate;
     }
 
+    public boolean deleteUser(int userId) {
+        if (!isAdmin()) {
+            return false;
+        }
+
+        User userToDelete = userDAO.getUserById(userId);
+        if (userToDelete == null) {
+            return false;
+        }
+
+        return userDAO.deleteUser(userToDelete);
+    }
+
+    public boolean changeAdminStatus(User user, int newStatus) {
+        if (!isAdmin()) {
+            return false;
+        }
+
+        user.setAdmin(newStatus == 1);
+        return userDAO.updateUser(user);
+    }
+
+    public List<User> getAllUsers() {
+        if (!isAdmin()) {
+            return null;
+        }
+        return userDAO.getAllUsers();
+    }
 }
