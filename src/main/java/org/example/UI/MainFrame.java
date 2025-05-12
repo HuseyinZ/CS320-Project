@@ -17,10 +17,7 @@ public class MainFrame extends JFrame {
     private JPanel mainPanel;
     private CardLayout cardLayout;
 
-    // Sadece Login panel burada kalıyor
     private LoginPanel loginPanel;
-
-    // Yeni panel nesneleri
     private RegisterPanel registerPanel;
     private DashboardPanel dashboardPanel;
     private ProfilePanel profilePanel;

@@ -20,7 +20,6 @@ public class AuthControllerTest {
      */
     @Test
     public void testLogin_ValidCredentials() {
-        // This test assumes there's a valid user in the database with these credentials
         boolean result = authController.login("testuser", "password123");
         assertTrue(result, "Login should succeed with valid credentials");
     }
@@ -39,13 +38,10 @@ public class AuthControllerTest {
      */
     @Test
     public void testLogout() {
-        // First login to have a user to log out
         authController.login("testuser", "password123");
 
-        // Then logout
         authController.logout();
 
-        // Verify the user is logged out
         assertFalse(authController.isLoggedIn(), "User should be logged out after calling logout");
     }
 
@@ -67,7 +63,6 @@ public class AuthControllerTest {
      */
     @Test
     public void testRegister_ExistingUsername() {
-        // Assuming "existinguser" already exists in the system
         boolean result = authController.register(
                 "existinguser", "password123", "John Doe",
                 "john@example.com", "123 Main St", "1990-01-01"
@@ -78,10 +73,10 @@ public class AuthControllerTest {
 
     /**
      * Test for T-SRS-RO-012.1: RO shouldn't let the user create an account with someone else's email
+     * mail should be unique?
      */
     @Test
     public void testRegister_ExistingEmail() {
-        // Assuming "existing@example.com" already exists in the system
         boolean result = authController.register(
                 "newusername", "password123", "John Doe",
                 "existing@example.com", "123 Main St", "1990-01-01"
@@ -95,17 +90,14 @@ public class AuthControllerTest {
      */
     @Test
     public void testIsAdmin() {
-        // First login as an admin user
-        authController.login("adminuser", "adminpass");
+        authController.login("utku", "san00san");
 
         boolean result = authController.isAdmin();
         assertTrue(result, "Admin user should be recognized as admin");
 
-        // Logout
         authController.logout();
 
-        // Login as regular user
-        authController.login("regularuser", "userpass");
+        authController.login("a", "a");
 
         result = authController.isAdmin();
         assertFalse(result, "Regular user should not be recognized as admin");
@@ -130,19 +122,14 @@ public class AuthControllerTest {
      */
     @Test
     public void testIsLoggedIn() {
-        // Initially should not be logged in
         assertFalse(authController.isLoggedIn(), "Should not be logged in initially");
 
-        // Login
         authController.login("testuser", "password123");
 
-        // Should now be logged in
         assertTrue(authController.isLoggedIn(), "Should be logged in after successful login");
 
-        // Logout
         authController.logout();
 
-        // Should no longer be logged in
         assertFalse(authController.isLoggedIn(), "Should not be logged in after logout");
     }
 }

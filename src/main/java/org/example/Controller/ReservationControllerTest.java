@@ -219,14 +219,12 @@ public class ReservationControllerTest {
      */
     @Test
     public void testAllReservationsStored() {
-        // Get all reservations as admin
         authController.logout();
         authController.login(ADMIN_USER, ADMIN_PASSWORD);
 
         List<Reservation> allReservations = reservationController.getAllReservations();
         assertNotNull(allReservations, "All reservations list should not be null");
 
-        // Create a new reservation
         List<Car> availableCars = carController.getAllCars().stream()
                 .filter(car -> car.isAvailable(LocalDate.now()))
                 .toList();
@@ -237,7 +235,6 @@ public class ReservationControllerTest {
             LocalDate endTime = startTime.plusDays(24);
             reservationController.createReservation(carId, startTime, endTime);
 
-            // Get all reservations again
             List<Reservation> updatedReservations = reservationController.getAllReservations();
             assertEquals(allReservations.size() + 1, updatedReservations.size(),
                     "A new reservation should be added to the database");
